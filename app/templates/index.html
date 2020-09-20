@@ -1,0 +1,8 @@
+{% extends "base.html" %}
+
+{% block content %}
+        <h2>The following are the courses</h2>
+            {% for course in courses %}
+                <div><p>{{ course.name }} and duration is {{ course.duration }} </p></div>
+            {% endfor %}
+{% endblock %}

@@ -1,0 +1,26 @@
+<html>
+<div>
+
+    <a href="/index">Home</a>
+    <a href="/login">Login</a>
+    <a href="/help">Help</a>
+</div>
+    <head>
+        {% if title %}
+        <title>{{ title }} - Microblog</title>
+        {% else %}
+        <title>Vedanta Vidya peetam Microblog</title>
+        {% endif %}
+        <h2>Vedanta Vidya Peetam</h2>
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <ul>
+            {% for message in messages %}
+            <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+        {% endwith %}
+        {% block content %}{% endblock %}
+    </head>
+</html>
