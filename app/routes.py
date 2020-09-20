@@ -1,17 +1,16 @@
-from app import app
+from app import app, db
 from flask import render_template, flash, redirect, url_for
-from app.forms import LoginForm
+from app.forms import LoginForm, SubscribeForm
 from flask import request
 from werkzeug.urls import url_parse
 from flask_login import current_user, login_user, logout_user, login_required
-from app.models import User
+from app.models import User, Subscriber
 
 @app.route('/')
 @app.route('/index', methods=["GET"])
-
 def index():
-    courses = [{'name': 'Basic I', 'duration' : '5 weeks'}, {'name' : 'Ashtakam I', 'duration' : '3 weeks'}]
-    return render_template('/index.html', courses=courses)
+    subscribe = SubscribeForm()
+    return render_template('/index.html', form=subscribe)
 
 
 @app.route('/login', methods=["GET", "POST"])
@@ -39,6 +38,11 @@ def logout():
     logout_user()
     return redirect(url_for('index'))
 
-@app.route('/help')
-def help():
-    return render_template('help.html')
+@app.route('/subscribe', methods=['POST'])
+def subscribe():
+    subscribe = SubscribeForm()
+    sub = Subscriber()
+    sub.email = subscribe.email_id.data
+    db.session().add(sub)
+    db.session().commit()
+    return redirect('index')
